@@ -94,6 +94,11 @@ export default {
                     (error.response && error.response.data) ||
                     error.message ||
                     error.toString();
+
+                if (error.response.status === 401) {
+                  alert('Invalid credentials');
+                  this.message = '';
+                }
               }
           );
         }

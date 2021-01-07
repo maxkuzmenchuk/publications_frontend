@@ -1,12 +1,15 @@
 <template>
   <div>
-    <p>CATALOG</p>
-
-    <div>
-      <button @click="adminPage()"> admin</button>
-      <button @click="logout()"> logout</button>
-      <button @click="profile()"> profile</button>
-    </div>
+    <h1 class="md-title">Users</h1>
+    <br>
+    <ul>
+      <li v-for="user of list" v-bind:key="user.id">
+        {{ user.id }} -
+        {{ user.username }} -
+        {{ user.password }} -
+        {{ user.role }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -30,7 +33,7 @@ const instance = axios.create({
 });
 
 export default {
-  name: "Catalog",
+  name: "AdminPage",
   data() {
     return {list: undefined}
   },
@@ -58,9 +61,6 @@ export default {
     },
     profile() {
       this.$router.push('/profile');
-    },
-    adminPage() {
-      this.$router.push('/admin');
     }
   }
 }

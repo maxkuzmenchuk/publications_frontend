@@ -26,18 +26,18 @@ export const router = new Router({
             path: '/registration',
             component: Register
         },
-        // {
-        //     path: '/profile',
-        //     name: 'profile',
-        //     // lazy-loaded
-        //     component: () => import('./views/Profile.vue')
-        // },
-        // {
-        //     path: '/admin',
-        //     name: 'admin',
-        //     // lazy-loaded
-        //     component: () => import('./views/BoardAdmin.vue')
-        // },
+        {
+            path: '/profile',
+            name: 'profile',
+            // lazy-loaded
+            component: () => import('@/components/Profile')
+        },
+        {
+            path: '/admin',
+            name: 'admin',
+            // lazy-loaded
+            component: () => import('@/components/AdminPage')
+        },
         // {
         //     path: '/mod',
         //     name: 'moderator',
