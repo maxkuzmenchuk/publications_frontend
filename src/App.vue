@@ -61,8 +61,6 @@
   </div>
 </template>
 
-<!-- TODO:  FIX PARSING TOKEN-->
-
 <script>
 import Vue from 'vue'
 import  VueMaterial from 'vue-material'
