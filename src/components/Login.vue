@@ -87,6 +87,7 @@ export default {
               .then(
               () => {
                 this.$router.push('/catalog');
+                location.reload();
               },
               error => {
                 this.loading = false;

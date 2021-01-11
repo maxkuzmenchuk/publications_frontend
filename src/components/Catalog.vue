@@ -1,12 +1,6 @@
 <template>
   <div>
     <p>CATALOG</p>
-
-    <div>
-      <button @click="adminPage()"> admin</button>
-      <button @click="logout()"> logout</button>
-      <button @click="profile()"> profile</button>
-    </div>
   </div>
 </template>
 
@@ -20,49 +14,11 @@ import VueAxios from 'vue-axios';
 
 Vue.use(VueAxios, axios)
 
-const BASE_URL = 'http://localhost:9090';
-const instance = axios.create({
-  baseURL: BASE_URL,
-  timeout: 1000,
-  headers: {
-    "Authorization": 'Bearer ' + localStorage.getItem('token')
-  }
-});
-
 export default {
   name: "Catalog",
-  data() {
-    return {list: undefined}
-  },
-  mounted() {
-    instance.get('/admin/show-all',)
-        .then((resp) => {
-          this.list = resp.data;
-        })
-  },
-  methods: {
-    logout() {
-      this.$store.dispatch('auth/logout', this.user)
-          .then(
-              () => {
-                this.$router.push('/login');
-              },
-              error => {
-                this.loading = false;
-                this.message =
-                    (error.response && error.response.data) ||
-                    error.message ||
-                    error.toString();
-              }
-          );
-    },
-    profile() {
-      this.$router.push('/profile');
-    },
-    adminPage() {
-      this.$router.push('/admin');
-    }
-  }
+  // computed() {
+    // location.reload();
+  // }
 }
 </script>
 

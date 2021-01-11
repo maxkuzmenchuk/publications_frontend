@@ -27,12 +27,6 @@ export const router = new Router({
             component: Register
         },
         {
-            path: '/profile',
-            name: 'profile',
-            // lazy-loaded
-            component: () => import('@/components/Profile')
-        },
-        {
             path: '/admin',
             name: 'admin',
             // lazy-loaded
