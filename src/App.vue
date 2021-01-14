@@ -1,15 +1,24 @@
 <template>
   <div class="page-container">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
     <md-app md-waterfall md-mode="fixed">
-      <md-app-toolbar class="md-large md-dense md-primary">
+      <md-app-toolbar class="md-small md-dense md-primary">
         <div class="md-toolbar-row">
           <div class="md-toolbar-section-start">
-            <span class="md-title">Publication Store</span>
+            <md-button to='/catalog'><md-icon class="md-icon">bookmark_border</md-icon></md-button>
+            <div>
+              <md-button to="/catalog">
+                <span>Catalog</span>
+              </md-button>
+              <md-button v-if="showAdminBoard()" id="tab-pages" to="/admin/users">Admin Page</md-button>
+
+            </div>
           </div>
 
           <div class="md-toolbar-section-end">
             <md-menu md-size="small" md-align-trigger>
-              <md-button md-menu-trigger>icon</md-button>
+              <md-button md-menu-trigger><md-icon>portrait</md-icon></md-button>
 
               <md-menu-content>
                 <md-menu-item v-if="user" @click="showDialog = true">profile</md-menu-item>
@@ -19,21 +28,11 @@
             </md-menu>
           </div>
         </div>
-
-        <div class="md-toolbar-row">
-          <md-tabs class="md-primary">
-            <md-tab id="tab-home" md-label="Catalog" to="/catalog"></md-tab>
-            <md-tab v-if="showAdminBoard()" id="tab-pages" md-label="Admin Page" to="/admin"></md-tab>
-<!--            <md-tab id="tab-posts" md-label="Posts"></md-tab>-->
-<!--            <md-tab id="tab-favorites" md-label="Favorites"></md-tab>-->
-          </md-tabs>
-
-        </div>
       </md-app-toolbar>
     </md-app>
 
     <div class="md-tabs-container">
-  <router-view />
+  <router-view class="router-position" />
   </div>
 
     <div v-if="user">
@@ -68,12 +67,10 @@ import  VueMaterial from 'vue-material'
 Vue.use(VueMaterial);
 export default {
   name: 'App',
-  data() {
-    return {
+  data: () => ({
       showDialog: false,
       user: undefined
-    }
-  },
+  }),
   components: {},
   headers: {
     "Access-Control-Allow-Origin": "*",
@@ -131,5 +128,7 @@ export default {
 </script>
 
 <style>
-
+.router-position {
+  text-align: center;
+}
 </style>

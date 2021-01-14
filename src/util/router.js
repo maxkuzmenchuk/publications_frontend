@@ -30,19 +30,37 @@ export const router = new Router({
             path: '/admin',
             name: 'admin',
             // lazy-loaded
-            component: () => import('@/components/AdminPage')
+            component: () => import('@/components/admin/AdminPage')
         },
-        // {
-        //     path: '/mod',
-        //     name: 'moderator',
-        //     // lazy-loaded
-        //     component: () => import('./views/BoardModerator.vue')
-        // },
-        // {
-        //     path: '/user',
-        //     name: 'user',
-        //     // lazy-loaded
-        //     component: () => import('./views/BoardUser.vue')
-        // }
+        {
+            path: '/admin/users',
+            name: 'users',
+            // lazy-loaded
+            component: () => import('@/components/admin/user/UsersList.vue')
+        },
+        {
+            path: '/admin/publications',
+            name: 'publications',
+            // lazy-loaded
+            component: () => import('@/components/admin/publication/Publications')
+        },
+        {
+            path: '/admin/orders',
+            name: 'orders',
+            // lazy-loaded
+            component: () => import('@/components/admin/order/Orders')
+        },
+        {
+            path: '/admin/add-user/',
+            name: 'add-user',
+            // lazy-loaded
+            component: () => import('@/components/admin/user/AddUser')
+        },
+        {
+            path: '/admin/edit-user/:id',
+            name: 'edit-user',
+            // lazy-loaded
+            component: () => import('@/components/admin/user/EditUser')
+        }
     ]
 });

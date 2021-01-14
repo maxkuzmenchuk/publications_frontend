@@ -15,10 +15,7 @@ import VueAxios from 'vue-axios';
 Vue.use(VueAxios, axios)
 
 export default {
-  name: "Catalog",
-  // computed() {
-    // location.reload();
-  // }
+  name: "Catalog"
 }
 </script>
 
