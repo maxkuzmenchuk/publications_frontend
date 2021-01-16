@@ -1,64 +1,58 @@
 <template>
-  <div>
+  <div id="registration-page">
+    <form novalidate class="md-layout" @submit.prevent="handleRegister">
+      <md-card class="md-layout-item md-size-50 md-small-size-100">
+        <md-card-header>
+          <div class="md-title">Registration</div>
+        </md-card-header>
 
-    <h1>REGISTRATION</h1>
-    <br>
+        <md-card-content>
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-small-size-100">
+              <md-field>
+                <label for="username">Username</label>
+                <md-input name="username" id="username" autocomplete="username" v-model="user.username"
+                          :disabled="sending"/>
+                <span class="md-error" v-if="errors.has('username')">The first name is required</span>
+              </md-field>
+            </div>
 
-  <form name="form" @submit.prevent="handleRegister">
-    <div v-if="!successful">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input
-            v-model="user.username"
-            v-validate="'required|min:3|max:20'"
-            type="text"
-            class="form-control"
-            name="username"
-        />
-        <div
-            v-if="submitted && errors.has('username')"
-            class="alert-danger"
-        >{{errors.first('username')}}</div>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input
-            v-model="user.password"
-            v-validate="'required|min:6|max:40'"
-            type="password"
-            class="form-control"
-            name="password"
-        />
-        <div
-            v-if="submitted && errors.has('password')"
-            class="alert-danger"
-        >{{errors.first('password')}}</div>
-      </div>
-      <div class="form-group">
-        <button class="btn btn-primary btn-block">Sign Up</button>
-      </div>
+            <div class="md-layout-item md-small-size-100">
+              <md-field>
+                <label for="password">Password</label>
+                <md-input name="password" id="password" autocomplete="password" v-model="user.password"
+                          :disabled="sending"/>
+                <span class="md-error" v-if="errors.has('password')">Password is required</span>
+              </md-field>
+            </div>
+          </div>
+        </md-card-content>
+
+        <md-progress-bar md-mode="indeterminate" v-if="sending"/>
+
+        <md-card-actions>
+          <md-button type="submit" class="md-dense md-raised md-primary" :disabled="sending">Submit</md-button>
+        </md-card-actions>
+      </md-card>
+    </form>
+
+    <div id="login-link">
+      <span>Already have an account? Login <router-link to="/login">here</router-link></span>
     </div>
-  </form>
-
-  <div
-      v-if="message"
-      class="alert"
-      :class="successful ? 'alert-success' : 'alert-danger'"
-  >{{message}}</div>
   </div>
 </template>
 
 <script>
-import User from '../model/user';
+import User from './model/user';
 
 export default {
   name: 'Register',
   data() {
     return {
       user: new User('', '', ''),
-      submitted: false,
-      successful: false,
-      message: ''
+      message: '',
+      sending: false,
+      showSnackbar: false
     };
   },
   computed: {
@@ -73,21 +67,22 @@ export default {
   },
   methods: {
     handleRegister() {
+      this.sending = true;
       this.message = '';
-      this.submitted = true;
       this.$validator.validate().then(isValid => {
         if (isValid) {
           this.$store.dispatch('auth/register', this.user).then(
               data => {
                 this.message = data.message;
-                this.successful = true;
+                this.sending = false;
+                this.$store.dispatch('auth/login', this.user);
+                this.$router.push("/login");
               },
               error => {
                 this.message =
                     (error.response && error.response.data) ||
                     error.message ||
                     error.toString();
-                this.successful = false;
               }
           );
         }
@@ -98,5 +93,7 @@ export default {
 </script>
 
 <style scoped>
-
+#login-link {
+  text-align: left;
+}
 </style>

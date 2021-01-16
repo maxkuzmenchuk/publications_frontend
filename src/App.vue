@@ -16,16 +16,19 @@
             </div>
           </div>
 
-          <div class="md-toolbar-section-end">
+          <div v-if="user" class="md-toolbar-section-end">
             <md-menu md-size="small" md-align-trigger>
               <md-button md-menu-trigger><md-icon>portrait</md-icon></md-button>
 
               <md-menu-content>
-                <md-menu-item v-if="user" @click="showDialog = true">profile</md-menu-item>
-                <md-menu-item v-if="!user" @click="login()">login</md-menu-item>
-                <md-menu-item v-if="user" @click="logout()">logout</md-menu-item>
+                <md-menu-item @click="showDialog = true">profile</md-menu-item>
+                <md-menu-item @click="logout()">logout</md-menu-item>
               </md-menu-content>
             </md-menu>
+          </div>
+
+          <div v-if="!user">
+            <md-button id="login" to="/login">Login</md-button>
           </div>
         </div>
       </md-app-toolbar>
@@ -103,7 +106,6 @@ export default {
                 this.$router.push('/catalog').catch(()=>{});
               },
               error => {
-                this.loading = false;
                 this.message =
                     (error.response && error.response.data) ||
                     error.message ||
@@ -111,9 +113,6 @@ export default {
               }
           );
     },
-  login() {
-    this.$router.push("login");
-  },
     parseJwt(token) {
         var base64Url = token.split('.')[1];
         var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
