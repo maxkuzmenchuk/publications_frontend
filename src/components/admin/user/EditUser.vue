@@ -103,8 +103,8 @@ export default {
       if (confirm("Are you sure?")) {
         instance.post('/admin/delete/' + id)
             .then(() => {
-              this.showSnackbarDelete = true;
-            })
+              this.$router.push("/admin/users");
+            });
       }
     }
   }

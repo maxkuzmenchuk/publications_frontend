@@ -49,7 +49,6 @@
                     </md-button>
                   </md-menu-item>
                 </md-menu-content>
-
               </md-menu>
             </md-table-cell>
           </md-table-row>
@@ -89,7 +88,9 @@ export default {
   components: {AdminPage},
 
   data: () => ({
-    list: undefined
+    list: undefined,
+    showListSnackBarDelete: false,
+    position: 'left'
   }),
   mounted() {
     instance.get('/admin/show-all',)
@@ -99,7 +100,10 @@ export default {
   },
   methods: {
     deleteUser(id) {
-      alert('user ' + id + ' deleted!');
+      instance.post('/admin/delete/' + id)
+          .then(() => {
+            location.reload();
+          });
     },
     toEditUser(id) {
       this.$router.push({ path: `edit-user/${id}`});
