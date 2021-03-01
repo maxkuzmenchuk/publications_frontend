@@ -1,21 +1,23 @@
 <template>
   <div id="edit-user-form">
-    <form novalidate class="md-layout" :v-model="user"  @submit.prevent="saveUser(user.id)">
-      <md-card class="md-layout-item md-size-100">
+    <form novalidate class="md-layout" :v-model="user" v-bind:id="user.id" @submit.prevent="saveUser()">
+      <md-card class="md-layout-item">
         <md-card-header>
           <div class="md-title">Edit profile</div>
         </md-card-header>
 
         <md-card-content>
           <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
+            <div class="md-layout-item">
               <md-field>
                 <label for="username">Username</label>
                 <md-input name="username" id="username" autocomplete="given-name" v-model="user.username"/>
               </md-field>
             </div>
+          </div>
 
-            <div class="md-layout-item md-small-size-100">
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item">
               <md-field>
                 <label for="password">Password</label>
                 <md-input name="password" id="password" autocomplete="family-name" v-model="user.password"/>
@@ -24,23 +26,34 @@
           </div>
 
           <div class="md-layout md-gutter">
-            <div class="md-layout-item ">
+            <div class="md-layout-item">
               <md-field>
-                <label for="role">Role</label>
-                <md-select name="role" id="role" v-model="user.role" md-dense>
+                <label for="authority">Authority</label>
+                <md-select name="authority" id="authority" v-model="user.authorities[0].authority" md-dense>
                   <md-option value="ROLE_ADMIN">admin</md-option>
                   <md-option value="ROLE_USER">user</md-option>
                 </md-select>
               </md-field>
             </div>
           </div>
-        </md-card-content>
+
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item md-size-10">
+              <md-checkbox name="enabled" id="enabled" type="checkbox" v-model="user.enabled" :checked="user.enabled">
+                Enabled
+              </md-checkbox>
+            </div>
+          </div>
+
 
         <md-card-actions>
-          <md-button class=" md-dense md-raised" :md-ripple="false" to="/admin/users">Admin Page</md-button>
-          <md-button class="md-dense md-raised md-accent" @click="deleteUser(user.id)">Delete user</md-button>
-          <md-button type="submit" class="md-dense md-raised md-primary">Save</md-button>
+          <div class="md-layout-item md-fab-bottom-right md-size-1500">
+            <md-button class=" md-dense md-raised" :md-ripple="false" to="/admin/users">Admin Page</md-button>
+            <md-button class="md-dense md-raised md-accent" @click="deleteUser(user.id)">Delete user</md-button>
+            <md-button type="submit" class="md-dense md-raised md-primary">Save</md-button>
+          </div>
         </md-card-actions>
+        </md-card-content>
       </md-card>
     </form>
 
@@ -55,9 +68,6 @@
     </div>
   </div>
 </template>
-
-<!-- TODO: fix update user role -->
-
 
 <script>
 import axios from "axios";
@@ -78,30 +88,36 @@ export default {
     showSnackbarDelete: false,
     position: 'left',
     user: {
-      id: String,
-      username: String,
-      password: String,
-      role: String,
+      id: null,
+      username: null,
+      password: null,
+      enabled: true,
+      authorities: {
+        authority: null
+      },
     },
     sending: false,
   }),
   mounted() {
-    instance.get('/admin/show-user/' + this.$route.params.id)
+    instance.get('/admin/users/edit/' + this.$route.params.id)
         .then((resp) => {
           this.user = resp.data;
         });
   },
   methods: {
-    saveUser(id) {
-      this.user.role = JSON.parse(this.user.role);
-      instance.post('/admin/update/' + id, this.user)
+    saveUser() {
+      instance.post('/admin/users/save', this.user)
           .then(() => {
             this.showSnackbarUpdate = true;
+
+            setTimeout(function () {
+              location.href = '/admin/users'
+            }, 1500);
           });
     },
     deleteUser(id) {
       if (confirm("Are you sure?")) {
-        instance.post('/admin/delete/' + id)
+        instance.post('/admin/users/delete/' + id)
             .then(() => {
               this.$router.push("/admin/users");
             });
@@ -113,6 +129,9 @@ export default {
 
 <style scoped>
 #edit-user-form {
-  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50em;
 }
+
 </style>

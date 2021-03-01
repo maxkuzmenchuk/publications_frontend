@@ -28,9 +28,8 @@ export const router = new Router({
         },
         {
             path: '/admin',
-            name: 'admin',
-            // lazy-loaded
-            component: () => import('@/components/admin/AdminPage')
+            redirect: '/admin/users',
+            name: 'admin'
         },
         {
             path: '/admin/users',
@@ -51,13 +50,13 @@ export const router = new Router({
             component: () => import('@/components/admin/order/Orders')
         },
         {
-            path: '/admin/add-user/',
+            path: '/admin/users/add',
             name: 'add-user',
             // lazy-loaded
             component: () => import('@/components/admin/user/AddUser')
         },
         {
-            path: '/admin/edit-user/:id',
+            path: '/admin/users/edit/:id',
             name: 'edit-user',
             // lazy-loaded
             component: () => import('@/components/admin/user/EditUser')

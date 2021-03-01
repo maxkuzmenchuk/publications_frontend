@@ -1,39 +1,49 @@
 <template>
   <div id="add-user-form">
     <form novalidate class="md-layout" :v-model="form"  @submit.prevent="addUser()">
-      <md-card class="md-layout-item md-size-100">
+      <md-card class="md-layout-item">
         <md-card-header>
           <div class="md-title">Add new user</div>
         </md-card-header>
 
         <md-card-content>
           <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
+            <div class="md-layout-item">
               <md-field>
                 <label for="username">Username</label>
-                <md-input name="username" id="username" autocomplete="given-name" v-model="form.username" />
-              </md-field>
-            </div>
-
-            <div class="md-layout-item md-small-size-100">
-              <md-field>
-                <label for="password">Password</label>
-                <md-input name="password" id="password" autocomplete="family-name" v-model="form.password" />
+                <md-input name="username" id="username" v-model="form.username" />
               </md-field>
             </div>
           </div>
 
-          <div class="md-layout md-gutter">
-            <div class="md-layout-item ">
+            <div class="md-layout md-gutter">
+              <div class="md-layout-item">
               <md-field>
-                <label for="role">Role</label>
-                <md-select name="role" id="role" v-model="form.role" md-dense>
-                  <md-option value="ROLE_ADMIN">ROLE_ADMIN</md-option>
-                  <md-option value="ROLE_USER">ROLE_USER</md-option>
+                <label for="password">Password</label>
+                <md-input name="password" id="password" v-model="form.password" />
+              </md-field>
+            </div>
+          </div>
+
+            <div class="md-layout md-gutter">
+              <div class="md-layout-item">
+              <md-field>
+                <label for="authority">Authority</label>
+                <md-select name="authority" id="authority" v-model="form.authorities.authority" md-dense>
+                  <md-option value="ROLE_ADMIN">admin</md-option>
+                  <md-option value="ROLE_USER">user</md-option>
                 </md-select>
               </md-field>
             </div>
           </div>
+
+            <div class="md-layout md-gutter">
+              <div class="md-layout-item">
+                  <md-checkbox name="enabled" id="enabled" type="checkbox" v-model="form.enabled" :checked="form.enabled">
+                    Enabled
+                  </md-checkbox>
+                </div>
+              </div>
         </md-card-content>
 
         <md-card-actions>
@@ -63,9 +73,6 @@ const instance = axios.create({
   }
 });
 
-
-// TODO: send role as enum
-
 export default {
 name: "AddUser",
   data: () => ({
@@ -74,23 +81,30 @@ name: "AddUser",
     form: {
       username: null,
       password: null,
-      role: null,
+      enabled: true,
+      authorities: {
+        authority: null
+      }
     },
     sending: false,
   }),
   methods: {
     addUser() {
-      instance.post('/admin/add', this.form)
+      instance.post('/admin/users/save', this.form)
           .then(() => {
             this.showSnackbar = true;
+            setTimeout(function () { location.href = '/admin/users'}, 1500);
           });
-    }
+    },
+
   }
 }
 </script>
 
 <style scoped>
 #add-user-form {
-  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50em;
 }
 </style>

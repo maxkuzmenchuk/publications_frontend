@@ -5,21 +5,22 @@
     <div id="admin-page">
       <admin-page/>
     </div>
-    <div id="admin-users-content" style="text-align: center">
+    <div id="admin-users-content" style="text-align: left">
       <div id="table">
         <md-table md-card>
           <md-table-toolbar>
-            <h1 class="md-title">Users</h1>
-            <md-button class="md-dense md-raised md-primary" to="/admin/add-user">
+            <h1 class="md-title" style="text-align: center">Users</h1>
+            <md-button class="md-dense md-raised md-primary" to="/admin/users/add">
               <md-icon>person_add</md-icon>
             </md-button>
           </md-table-toolbar>
 
-          <md-table-row style="align-content: center">
+          <md-table-row style="text-align: left">
             <md-table-head md-numeric>ID</md-table-head>
             <md-table-head>Name</md-table-head>
             <md-table-head>Password</md-table-head>
             <md-table-head>Role</md-table-head>
+            <md-table-head>Enabled</md-table-head>
             <md-table-head></md-table-head>
           </md-table-row>
 
@@ -27,7 +28,8 @@
             <md-table-cell md-label="ID" md-numeric>{{ user.id }}</md-table-cell>
             <md-table-cell md-label="Username">{{ user.username }}</md-table-cell>
             <md-table-cell md-label="Password">{{ user.password }}</md-table-cell>
-            <md-table-cell md-label="Role">{{ user.role }}</md-table-cell>
+            <md-table-cell md-label="Role">{{ user.authorities[0].authority }}</md-table-cell>
+            <md-table-cell md-label="Enabled">{{ user.enabled }}</md-table-cell>
             <md-table-cell md-label="">
               <md-menu md-size="small" md-align-trigger>
                 <md-button class="md-icon-button" md-menu-trigger>
@@ -93,20 +95,20 @@ export default {
     position: 'left'
   }),
   mounted() {
-    instance.get('/admin/show-all',)
+    instance.get('/admin/users/all',)
         .then((resp) => {
           this.list = resp.data;
         });
   },
   methods: {
     deleteUser(id) {
-      instance.post('/admin/delete/' + id)
+      instance.post('/admin/users/delete/' + id)
           .then(() => {
             location.reload();
           });
     },
     toEditUser(id) {
-      this.$router.push({ path: `edit-user/${id}`});
+      this.$router.push({path: `users/edit/${id}`});
     }
   }
 }
