@@ -1,14 +1,14 @@
 <template>
   <div id="registration-page">
     <form novalidate class="md-layout" @submit.prevent="handleRegister">
-      <md-card class="md-layout-item md-size-50 md-small-size-100">
+      <md-card class="md-layout-item ">
         <md-card-header>
           <div class="md-title">Registration</div>
         </md-card-header>
 
         <md-card-content>
           <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
+            <div class="md-layout-item">
               <md-field>
                 <label for="username">Username</label>
                 <md-input name="username" id="username" autocomplete="username" v-model="user.username"
@@ -16,8 +16,10 @@
                 <span class="md-error" v-if="errors.has('username')">The first name is required</span>
               </md-field>
             </div>
+          </div>
 
-            <div class="md-layout-item md-small-size-100">
+          <div class="md-layout md-gutter">
+            <div class="md-layout-item">
               <md-field>
                 <label for="password">Password</label>
                 <md-input name="password" id="password" autocomplete="password" v-model="user.password"
@@ -75,16 +77,21 @@ export default {
               data => {
                 this.message = data.message;
                 this.sending = false;
-                this.$store.dispatch('auth/login', this.user);
-                this.$router.push("/login");
-              },
-              error => {
-                this.message =
-                    (error.response && error.response.data) ||
-                    error.message ||
-                    error.toString();
-              }
-          );
+                this.$store.dispatch('auth/login', this.user)
+                    .then(
+                        () => {
+                          this.sending = false;
+                          this.showSnackbar = true;
+                          this.$router.push('/catalog');
+                          location.reload();
+                        },
+                        error => {
+                          this.message =
+                              (error.response && error.response.data) ||
+                              error.message ||
+                              error.toString();
+                        });
+              });
         }
       });
     }
@@ -93,7 +100,9 @@ export default {
 </script>
 
 <style scoped>
-#login-link {
-  text-align: left;
+#registration-page {
+  margin-left: auto;
+  margin-right: auto;
+  width: 30em;
 }
 </style>

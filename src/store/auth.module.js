@@ -53,7 +53,7 @@ export const auth = {
             state.user = null;
         },
         registerSuccess(state) {
-            state.status.loggedIn = false;
+            state.status.loggedIn = true;
         },
         registerFailure(state) {
             state.status.loggedIn = false;

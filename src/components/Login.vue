@@ -1,14 +1,14 @@
 <template>
   <div id="login-page">
     <form novalidate class="md-layout" @submit.prevent="handleLogin">
-      <md-card class="md-layout-item md-size-50 md-small-size-100">
+      <md-card class="md-layout-item">
         <md-card-header>
           <div class="md-title">Login</div>
         </md-card-header>
 
         <md-card-content>
           <div class="md-layout md-gutter">
-            <div class="md-layout-item md-small-size-100">
+            <div class="md-layout-item">
               <md-field>
                 <label for="username">Username</label>
                 <md-input name="username" id="username" autocomplete="username" v-model="user.username"
@@ -16,8 +16,10 @@
                 <span class="md-error" v-if="errors.has('username')">The first name is required</span>
               </md-field>
             </div>
+          </div>
 
-            <div class="md-layout-item md-small-size-100">
+            <div class="md-layout md-gutter">
+              <div class="md-layout-item">
               <md-field>
                 <label for="password">Password</label>
                 <md-input name="password" id="password" autocomplete="password" v-model="user.password"
@@ -97,7 +99,9 @@ export default {
 </script>
 
 <style scoped>
-#registration-link {
-  text-align: left;
+#login-page {
+  margin-left: auto;
+  margin-right: auto;
+  width: 30em;
 }
 </style>
