@@ -9,7 +9,7 @@
       <div id="table">
         <md-table md-card>
           <md-table-toolbar>
-            <h1 class="md-title" style="text-align: center">Users</h1>
+            <h1 class="md-title" style="text-align: center"></h1>
             <md-button class="md-dense md-raised md-primary" to="/admin/users/add">
               <md-icon>person_add</md-icon>
             </md-button>
@@ -47,7 +47,7 @@
                   <md-menu-item>
                     <md-button class="md-accent" @click='deleteUser(user.id)'>
                       <span>Delete</span>
-                      <md-icon>person_remove</md-icon>
+                      <md-icon>delete</md-icon>
                     </md-button>
                   </md-menu-item>
                 </md-menu-content>

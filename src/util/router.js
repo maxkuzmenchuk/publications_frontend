@@ -60,6 +60,18 @@ export const router = new Router({
             name: 'edit-user',
             // lazy-loaded
             component: () => import('@/components/admin/user/EditUser')
+        },
+        {
+            path: '/admin/publication/add',
+            name: 'add-publication',
+            // lazy-loaded
+            component: () => import('@/components/admin/publication/AddPublication')
+        },
+        {
+            path: '/admin/publication/edit/:id',
+            name: 'edit-publication',
+            // lazy-loaded
+            component: () => import('@/components/admin/user/EditUser')
         }
     ]
 });
